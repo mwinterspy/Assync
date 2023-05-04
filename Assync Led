@@ -1,0 +1,77 @@
+int yellow = 32;
+int green = 14;
+int red = 18;
+
+void setup() 
+{
+  pinMode(yellow, OUTPUT);
+  pinMode(red, OUTPUT);
+  pinMode(green, OUTPUT);
+  
+  xTaskCreate(
+    alternarLedYellow,
+    "alternarLedYellow",
+    3000,
+    NULL,
+    1,
+    NULL
+  );
+
+  xTaskCreate(
+    alternarLedRed,
+    "alternarLedRed",
+    3000,
+    NULL,
+    1,
+    NULL
+  );
+  xTaskCreate(
+    alternarLedGreen,
+    "alternarLedGreen",
+    3000,
+    NULL,
+    1,
+    NULL
+  );
+}
+
+void alternarLedYellow(void * parameter) 
+{
+for(;;)
+{
+  digitalWrite(yellow, HIGH);
+  vTaskDelay(500);
+  digitalWrite(yellow, LOW);
+  vTaskDelay(500);
+  yield();
+}
+}
+
+void alternarLedGreen(void * parameter) 
+{
+for(;;)
+{
+  digitalWrite(green, HIGH);
+  vTaskDelay(250);
+  digitalWrite(green, LOW);
+  vTaskDelay(250);
+  yield();
+}
+}
+
+void alternarLedRed(void * parameter) 
+{
+for(;;)
+{
+  digitalWrite(red, HIGH);
+  vTaskDelay(250);
+  digitalWrite(red, LOW);
+  vTaskDelay(250);
+  yield();
+}
+
+}
+
+void loop(){
+  
+}
