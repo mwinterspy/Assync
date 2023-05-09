@@ -1,0 +1,150 @@
+int vermelho = 18;
+int stvermelho = 0;
+int lsvermelho = 1; 
+int verde = 21;
+int stverde = 0;
+int lsverde = 1;
+int amarelo = 19;
+int stamarelo = 0;
+int lsamarelo = 1;
+int btvermelho = 14;
+int btamarelo = 27;
+int btverde = 26;
+int estadoAtual = 0;
+int ultimoEstado = 1; 
+
+void setup() 
+{
+
+  pinMode(vermelho, OUTPUT);
+  pinMode(verde, OUTPUT);
+  pinMode(amarelo, OUTPUT);
+  pinMode(btvermelho, INPUT_PULLUP);
+  pinMode(btverde, INPUT_PULLUP);
+  pinMode(btamarelo, INPUT_PULLUP);
+
+  xTaskCreate(
+    altLedVerm,
+    "altLedVerm",
+    3000,
+    NULL,
+    1,
+    NULL
+  );
+
+    xTaskCreate(
+    altLedVerde,
+    "altLedVerde",
+    3000,
+    NULL,
+    1,
+    NULL
+  );
+
+    xTaskCreate(
+    altLedAma,
+    "altLedAma",
+    3000,
+    NULL,
+    1,
+    NULL
+  );
+
+}
+
+void altVerm(){
+  if (stvermelho == 0) {
+    //Liga o led
+    stvermelho = 1;
+    digitalWrite(vermelho, HIGH);
+  } else {
+    stvermelho = 0;
+    digitalWrite(vermelho, LOW);
+}
+}
+
+void altLedVerm(void * parameter) 
+{
+for(;;)
+{
+  stvermelho = digitalRead(btvermelho);
+  if(lsvermelho == HIGH && stvermelho == LOW)
+  {
+    altVerm(); 
+  }
+   else if (lsvermelho == LOW && stvermelho == HIGH) {
+      
+    }
+    lsvermelho = stvermelho;
+    vTaskDelay(30);
+    yield();
+}
+}
+
+
+void altVerde(){
+  if (stverde == 0) {
+    //Liga o led
+    stverde = 1;
+    digitalWrite(verde, HIGH);
+  } else {
+    stverde = 0;
+    digitalWrite(verde, LOW);
+}
+}
+
+void altLedVerde(void * parameter) 
+{
+for(;;)
+{
+  stverde = digitalRead(btverde);
+  if(lsverde == HIGH && stverde == LOW)
+  {
+    altVerde();
+    
+    
+  }
+   else if (lsverde == LOW && stverde == HIGH) {
+     
+      
+    }
+    lsverde = stverde;
+    vTaskDelay(30);
+    yield();
+}
+}
+
+void altAmarelo(){
+  if (stamarelo == 0) {
+    //Liga o led
+    stamarelo = 1;
+    digitalWrite(amarelo, HIGH);
+  } else {
+    stamarelo = 0;
+    digitalWrite(amarelo, LOW);
+}
+}
+
+void altLedAma(void * parameter) 
+{
+for(;;)
+{
+  stamarelo = digitalRead(btamarelo);
+  if(lsamarelo == HIGH && stamarelo == LOW)
+  {
+    altAmarelo();
+    
+  }
+   else if (lsamarelo == LOW && stamarelo == HIGH) {
+     
+    }
+    lsamarelo = stamarelo;
+    vTaskDelay(30);
+    yield();
+}
+}
+
+void loop() 
+{
+ 
+}
